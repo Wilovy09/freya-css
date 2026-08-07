@@ -1,0 +1,11 @@
+[package]
+edition = "2024"
+name = "freya-css"
+version = "0.1.0"
+
+[dependencies]
+freya-core = "0.4.1"
+torin = "0.4.1"
+
+[dev-dependencies]
+freya = "0.4.1"
