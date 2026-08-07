@@ -4,7 +4,7 @@
 )]
 
 use freya::prelude::*;
-use freya_css::{CssExt, StyleSheet};
+use freya_css::{CssExt, HoverExt, StyleSheet};
 
 fn main() {
     // Register classes once at startup
@@ -44,6 +44,11 @@ fn main() {
             background: #f38ba8;
             border-radius: 8px;
             padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background: #eb6f92;
         }
         "#,
     );
@@ -97,6 +102,8 @@ fn card_component() -> impl IntoElement {
 }
 
 fn buttons_row() -> impl IntoElement {
+    let cancel_hovered = use_state(|| false);
+
     rect()
         .horizontal()
         .spacing(12.)
@@ -108,7 +115,10 @@ fn buttons_row() -> impl IntoElement {
             ),
         )
         .child(
-            rect().class("btn-danger").child(
+            // `.hover_class()` applies `.btn-danger:hover` while the pointer is
+            // over the button; `cursor: pointer` (declared on `.btn-danger`) shows
+            // a pointer cursor for the same duration.
+            rect().hover_class("btn-danger", cancel_hovered).child(
                 label()
                     .css("color: #1e1e2e; font-weight: bold;")
                     .text("Cancel"),

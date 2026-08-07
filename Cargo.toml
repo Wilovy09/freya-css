@@ -2,6 +2,12 @@
 edition = "2024"
 name = "freya-css"
 version = "0.1.0"
+description = "CSS-flavored styling for Freya GUI elements — write real CSS syntax instead of chaining builder calls."
+license = "MIT"
+repository = "https://github.com/Wilovy09/freya-css"
+readme = "README.md"
+keywords = ["freya", "css", "gui", "styling"]
+categories = ["gui", "parsing"]
 
 [dependencies]
 freya-core = "0.4.1"
@@ -9,3 +15,4 @@ torin = "0.4.1"
 
 [dev-dependencies]
 freya = "0.4.1"
+freya-testing = "0.4.1"
