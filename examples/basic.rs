@@ -7,51 +7,7 @@ use freya::prelude::*;
 use freya_css::{CssExt, HoverExt, StyleSheet};
 
 fn main() {
-    // Register classes once at startup
-    StyleSheet::load(
-        r#"
-        .card {
-            background: #1e1e2e;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-        }
-
-        .badge {
-            background: #cba6f7;
-            border-radius: 99px;
-            padding: 4px 12px;
-        }
-
-        .title {
-            color: #cdd6f4;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .subtitle {
-            color: #a6adc8;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            background: #89b4fa;
-            border-radius: 8px;
-            padding: 8px 20px;
-        }
-
-        .btn-danger {
-            background: #f38ba8;
-            border-radius: 8px;
-            padding: 8px 20px;
-            cursor: pointer;
-        }
-
-        .btn-danger:hover {
-            background: #eb6f92;
-        }
-        "#,
-    );
+    StyleSheet::load(include_str!("style.css"));
 
     launch(LaunchConfig::new().with_window(WindowConfig::new(app)))
 }
