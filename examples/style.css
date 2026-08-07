@@ -1,3 +1,7 @@
+:root {
+    --moradito-color: #cba6f7;
+}
+
 .card {
     background: #1e1e2e;
     border-radius: 12px;
@@ -6,7 +10,7 @@
 }
 
 .badge {
-    background: #cba6f7;
+    background: var(--moradito-color);
     border-radius: 99px;
     padding: 4px 12px;
 }
