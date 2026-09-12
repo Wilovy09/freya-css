@@ -1,7 +1,7 @@
 use freya_core::events::name::EventName;
 use freya_css::{ActiveExt, CssExt, FocusExt, HoverExt, StyleSheet};
 use freya_testing::prelude::*;
-use torin::prelude::{Alignment, Direction, Length, Size, Size2D};
+use torin::prelude::{Alignment, Direction, Length, Position, Size, Size2D};
 
 #[test]
 fn class_applies_solid_background_to_rect() {
@@ -383,5 +383,77 @@ fn media_query_does_not_apply_on_a_narrow_window() {
     assert!(
         found.is_some(),
         "expected only the base rule (not @media) on a 300px-wide window"
+    );
+}
+
+#[test]
+fn inline_css_applies_text_decoration_to_label() {
+    let runner = launch_test(|| label().css("text-decoration: underline;").text("hi"));
+
+    let found = runner.find(|_node, element| {
+        (element.text_style().text_decoration == Some(TextDecoration::Underline)).then_some(())
+    });
+
+    assert!(
+        found.is_some(),
+        "expected text-decoration:underline on the label"
+    );
+}
+
+#[test]
+fn inline_css_applies_font_style_italic_to_label() {
+    let runner = launch_test(|| label().css("font-style: italic;").text("hi"));
+
+    let found = runner.find(|_node, element| {
+        (element.text_style().font_slant == Some(FontSlant::Italic)).then_some(())
+    });
+
+    assert!(found.is_some(), "expected font-style:italic on the label");
+}
+
+#[test]
+fn inline_css_applies_scale_to_rect() {
+    let runner = launch_test(|| rect().css("scale: 1.2 0.8;"));
+
+    let found = runner.find(|_node, element| {
+        element
+            .effect()
+            .filter(|effect| effect.scale == Some(Scale::from((1.2, 0.8))))
+            .map(|_| ())
+    });
+
+    assert!(
+        found.is_some(),
+        "expected scale:1.2 0.8 applied to the rect"
+    );
+}
+
+#[test]
+fn inline_css_applies_transform_origin_to_rect() {
+    let runner = launch_test(|| rect().css("transform-origin: top left;"));
+
+    let found = runner.find(|_node, element| {
+        element
+            .effect()
+            .filter(|effect| effect.transform_origin == TransformOrigin::top_left())
+            .map(|_| ())
+    });
+
+    assert!(
+        found.is_some(),
+        "expected transform-origin:top left applied to the rect"
+    );
+}
+
+#[test]
+fn inline_css_applies_absolute_position_with_offsets_to_rect() {
+    let runner = launch_test(|| rect().css("position: absolute; top: 10px; left: 20px;"));
+
+    let expected = Position::new_absolute().top(10.0).left(20.0);
+    let found = runner.find(|_node, element| (element.layout().position == expected).then_some(()));
+
+    assert!(
+        found.is_some(),
+        "expected position:absolute with top/left offsets applied to the rect"
     );
 }
