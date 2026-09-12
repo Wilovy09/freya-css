@@ -101,8 +101,13 @@ Classes are matched against `.name { ... }` blocks; the leading dot is optional 
 | `font-weight` | `normal`, `bold`, `lighter`, `bolder`, or a number | `i32` |
 | `font-family` | quoted or bare family name | `String` |
 | `text-align` | `left`, `right`, `center`, `justify`, `start`, `end` | `TextAlign` |
+| `text-decoration` | `none`, `underline`, `overline`, `line-through` (line only — no separate style/color/thickness) | `TextDecoration` |
+| `text-overflow` | `clip`, `ellipsis`, or a quoted custom string | `TextOverflow` |
+| `font-style` | `normal`, `italic`, `oblique` | `FontSlant` |
 | `opacity` | `0.0–1.0` or `0–100%` | `f32` |
 | `rotate` | `<deg>` or `<rad>` | `f32` |
+| `scale` | one number (uniform) or two space-separated numbers (`<x> <y>`) | `Scale` |
+| `transform-origin` | `center`/`top`/`bottom`/`left`/`right`, a compound pair (`top left`, either order), or 1–2 `px`/`%` values | `TransformOrigin` |
 | `filter` | `blur(<px>)` | `f32` |
 | `gap`, `row-gap`, `column-gap` | `px` (all three map to the same single-axis gap) | `f32` (spacing) |
 | `flex-direction` | `row`/`row-reverse` → horizontal, `column`/`column-reverse` → vertical | `Direction` |
@@ -111,6 +116,8 @@ Classes are matched against `.name { ... }` blocks; the leading dot is optional 
 | `display` | only `none` is supported | forces `width`/`height` to `0` |
 | `overflow` | `visible` → shown, `hidden`/`clip`/`scroll`/`auto` → clipped | `Overflow` |
 | `cursor` | standard [CSS cursor keywords](https://www.w3.org/TR/css-ui-3/#cursor) (`pointer`, `grab`, `not-allowed`, `ew-resize`, ...) | `CursorIcon`, via `on_pointer_enter`/`on_pointer_leave` |
+| `position` | `absolute`, `fixed`, `static` (`relative`/`sticky` unsupported) | `Position` |
+| `top`, `right`, `bottom`, `left` | `px`, only applied once `position` is `absolute`/`fixed` | `Position`'s offsets |
 
 Named colors: `transparent`, `black`, `white`, `red`, `green`, `blue`, `yellow`, `cyan`, `magenta`, `gray`/`grey`, `darkgray`/`darkgrey`, `lightgray`/`lightgrey`.
 
@@ -124,6 +131,7 @@ Unparseable declarations are dropped and, in debug builds, logged to stderr inst
 - `display: none` forces the element's `width`/`height` to `0`, unlike real CSS it does not remove the element from the layout tree — put it last in the declaration list so no later `width`/`height` overrides it.
 - `flex-direction: row-reverse`/`column-reverse` are treated the same as `row`/`column`; Freya has no reverse-order concept.
 - `cursor` wires `on_pointer_enter`/`on_pointer_leave` internally to call `Cursor::set(...)` — see [Pseudo-class event conflicts](#pseudo-class-event-conflicts) for what this doesn't compose with.
+- `position: absolute` offsets are always relative to the element's immediate parent, unlike real CSS which resolves against the nearest *positioned* ancestor. `position: fixed` maps to offsets relative to the window instead (the closest available match to viewport-relative positioning). `relative`/`sticky` have no Freya equivalent and are dropped.
 
 ### Gradients
 
