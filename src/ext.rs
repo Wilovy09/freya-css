@@ -69,6 +69,7 @@ where
         + ContainerExt
         + ContainerSizeExt
         + ContainerWithContentExt
+        + ContainerPositionExt
         + EffectExt
         + EventHandlersExt
         + Sized,
@@ -91,9 +92,14 @@ where
         CssProp::FontWeight(w) => el.font_weight(*w),
         CssProp::FontFamily(f) => el.font_family(f.clone()),
         CssProp::TextAlign(ta) => el.text_align(*ta),
+        CssProp::TextDecoration(td) => el.text_decoration(*td),
+        CssProp::TextOverflow(to) => el.text_overflow(to.clone()),
+        CssProp::FontSlant(fs) => el.font_slant(*fs),
         CssProp::Opacity(o) => el.opacity(*o),
         CssProp::Rotation(r) => el.rotation(*r),
         CssProp::Blur(b) => el.blur(*b),
+        CssProp::Scale(s) => el.scale(*s),
+        CssProp::TransformOrigin(o) => el.transform_origin(*o),
         CssProp::Gap(g) => el.spacing(*g),
         CssProp::Direction(d) => el.direction(*d),
         CssProp::MainAlign(a) => el.main_align(a.clone()),
@@ -101,6 +107,7 @@ where
         CssProp::Hidden => el.width(Size::px(0.0)).height(Size::px(0.0)),
         CssProp::Overflow(o) => el.overflow(*o),
         CssProp::Cursor(icon) => apply_cursor(el, *icon),
+        CssProp::Position(p) => el.position(p.clone()),
     })
 }
 
@@ -143,7 +150,12 @@ impl CssExt for Paragraph {
 
 fn apply_text_layout<T>(element: T, props: &[CssProp]) -> T
 where
-    T: TextStyleExt + ContainerExt + ContainerSizeExt + EventHandlersExt + Sized,
+    T: TextStyleExt
+        + ContainerExt
+        + ContainerSizeExt
+        + ContainerPositionExt
+        + EventHandlersExt
+        + Sized,
 {
     props.iter().fold(element, |el, prop| match prop {
         CssProp::Width(s) => el.width(s.clone()),
@@ -159,10 +171,15 @@ where
         CssProp::FontWeight(w) => el.font_weight(*w),
         CssProp::FontFamily(f) => el.font_family(f.clone()),
         CssProp::TextAlign(ta) => el.text_align(*ta),
+        CssProp::TextDecoration(td) => el.text_decoration(*td),
+        CssProp::TextOverflow(to) => el.text_overflow(to.clone()),
+        CssProp::FontSlant(fs) => el.font_slant(*fs),
         CssProp::Hidden => el.width(Size::px(0.0)).height(Size::px(0.0)),
         CssProp::Cursor(icon) => apply_cursor(el, *icon),
-        // background, border, shadow, opacity, rotation, blur, gap, direction,
-        // align-items, justify-content and overflow are not supported on text elements
+        CssProp::Position(p) => el.position(p.clone()),
+        // background, border, shadow, opacity, rotation, blur, scale, transform-origin,
+        // gap, direction, align-items, justify-content and overflow are not supported on
+        // text elements
         _ => el,
     })
 }
@@ -187,6 +204,7 @@ where
         + ContainerExt
         + ContainerSizeExt
         + ContainerWithContentExt
+        + ContainerPositionExt
         + EventHandlersExt
         + Sized,
 {
@@ -202,6 +220,8 @@ where
         CssProp::Opacity(o) => el.opacity(*o),
         CssProp::Rotation(r) => el.rotation(*r),
         CssProp::Blur(b) => el.blur(*b),
+        CssProp::Scale(s) => el.scale(*s),
+        CssProp::TransformOrigin(o) => el.transform_origin(*o),
         CssProp::Gap(g) => el.spacing(*g),
         CssProp::Direction(d) => el.direction(*d),
         CssProp::MainAlign(a) => el.main_align(a.clone()),
@@ -209,6 +229,7 @@ where
         CssProp::Hidden => el.width(Size::px(0.0)).height(Size::px(0.0)),
         CssProp::Overflow(o) => el.overflow(*o),
         CssProp::Cursor(icon) => apply_cursor(el, *icon),
+        CssProp::Position(p) => el.position(p.clone()),
         _ => el,
     })
 }
