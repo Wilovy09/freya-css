@@ -1,7 +1,7 @@
 [package]
 edition = "2024"
 name = "freya-css"
-version = "0.1.0"
+version = "0.2.0"
 description = "CSS-flavored styling for Freya GUI elements — write real CSS syntax instead of chaining builder calls."
 license = "MIT"
 repository = "https://github.com/Wilovy09/freya-css"

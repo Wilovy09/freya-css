@@ -290,11 +290,9 @@ Investigated against the `freya-core`/`torin` source directly, not just depriori
 
 ## Installation
 
-Not yet published to crates.io — add it as a path or git dependency:
-
 ```toml
 [dependencies]
-freya-css = { path = "../freya-css" }
+freya-css = "0.2"
 ```
 
 ## Requirements
